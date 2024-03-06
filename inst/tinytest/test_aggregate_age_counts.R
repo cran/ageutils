@@ -2,10 +2,10 @@
 dat <- 1:10
 brk <- c(0, 5L)
 expected <- data.frame(
-    interval = factor(c("[0, 5)", "[5, Inf)", NA_character_), ordered = TRUE),
-    lower_bound = c(0, 5, NA),
-    upper_bound = c(5, Inf, NA),
-    count = c(15, 40, 0)
+    interval = factor(c("[0, 5)", "[5, Inf)"), ordered = TRUE),
+    lower_bound = c(0, 5),
+    upper_bound = c(5, Inf),
+    count = c(15, 40)
 )
 expect_equal(aggregate_age_counts(dat, breaks = brk), expected)
 
@@ -34,13 +34,13 @@ counts <- ages <- c(1, 10)
 breaks <- c(0, counts)
 expected <- data.frame(
     interval = factor(
-        c("[0, 1)", "[1, 10)", "[10, Inf)", NA_character_),
-        levels = c("[0, 1)", "[1, 10)", "[10, Inf)", NA_character_),
+        c("[0, 1)", "[1, 10)", "[10, Inf)"),
+        levels = c("[0, 1)", "[1, 10)", "[10, Inf)"),
         ordered = TRUE
     ),
-    lower_bound = c(0, 1, 10, NA),
-    upper_bound = c(1, 10, Inf, NA),
-    count = c(0, 1, 10, 0)
+    lower_bound = c(0, 1, 10),
+    upper_bound = c(1, 10, Inf),
+    count = c(0, 1, 10)
 )
 expect_equal(aggregate_age_counts(counts, ages, breaks), expected)
 
@@ -49,95 +49,59 @@ counts <- ages <- c(10, 1)
 breaks <- c(0, 1, 10)
 expected <- data.frame(
     interval = factor(
-        c("[0, 1)", "[1, 10)", "[10, Inf)", NA_character_),
-        levels = c("[0, 1)", "[1, 10)", "[10, Inf)", NA_character_),
+        c("[0, 1)", "[1, 10)", "[10, Inf)"),
+        levels = c("[0, 1)", "[1, 10)", "[10, Inf)"),
         ordered = TRUE
     ),
-    lower_bound = c(0, 1, 10, NA),
-    upper_bound = c(1, 10, Inf, NA),
-    count = c(0, 1, 10, 0)
+    lower_bound = c(0, 1, 10),
+    upper_bound = c(1, 10, Inf),
+    count = c(0, 1, 10)
 )
 expect_equal(aggregate_age_counts(counts, ages, breaks), expected)
 
 counts <- ages <- c(10, 1)
 breaks <- c(3, 10)
-expected <- data.frame(
-    interval = factor(
-        c("[3, 10)", "[10, Inf)", NA_character_),
-        levels = c("[3, 10)", "[10, Inf)"),
-        ordered = TRUE
-    ),
-    lower_bound = c(3, 10, NA),
-    upper_bound = c(10, Inf, NA),
-    count = c(0, 10, 1)
+expect_error(
+    aggregate_age_counts(counts, ages, breaks),
+    "`ages` must greater than or equal to the minimum value of `breaks`.",
+    fixed = TRUE
 )
-expect_equal(aggregate_age_counts(counts, ages, breaks), expected)
+
 
 # error messaging
 counts <- ages <- c(10, 1)
 breaks <- c(0, counts)
 expect_error(
     aggregate_age_counts(counts, ages, breaks),
-    "`breaks` must be non-negative and in strictly increasing order.",
+    "`breaks` must be in strictly increasing order.",
     fixed = TRUE
 )
 
-expect_error(
-    aggregate_age_counts(1:10, as.character(1:10), 5L),
-    "`ages` must be numeric.",
-    fixed = TRUE
-)
+expect_error( aggregate_age_counts(1:10, as.character(1:10), 5L) )
 
 expect_error(
-    aggregate_age_counts(1:10, 1:9, 5L),
+    aggregate_age_counts(1:10, 6:14, 5L),
     "`ages` and `counts` must be the same length.",
     fixed = TRUE
 )
 
-expect_error(
-    aggregate_age_counts("bob", breaks = 1L),
-    "`counts` must be numeric.",
-    fixed = TRUE
-)
-
-expect_error(
-    aggregate_age_counts(ages = -1:10, counts = seq_along(ages), breaks = 2L),
-    "`ages` must be in the interval `[0, 200)` or NA.",
-    fixed = TRUE
-)
+expect_error( aggregate_age_counts("bob", breaks = 1L) )
 
 expect_error(
     aggregate_age_counts(1:10, breaks = NA_integer_),
-    "`breaks` must be non-negative and coercible to integer.",
+    "`breaks` must be non-missing (not NA) and coercible to integer.",
     fixed = TRUE
 )
 
 expect_error(
     aggregate_age_counts(1:10, breaks = c(2L, 2L)),
-    "`breaks` must be non-negative and in strictly increasing order.",
+    "`breaks` must be in strictly increasing order.",
     fixed = TRUE
 )
 
-expect_error(
-    aggregate_age_counts(1:10, breaks = -1),
-    "`breaks` must be non-negative and coercible to integer.",
-    fixed = TRUE
-)
+expect_error( aggregate_age_counts(1:10, breaks = "5") )
 
-expect_error(
-    aggregate_age_counts(1:10, breaks = "5"),
-    "`breaks` must be numeric.",
-    fixed = TRUE
-)
-
-ages <- 1:10
-ages[1] <- -1L
-counts <- 1:10
-expect_error(
-    aggregate_age_counts(counts, ages, breaks = 1),
-    "`ages` must be in the interval `[0, 200)` or NA.",
-    fixed = TRUE
-)
 
 # success
 expect_silent(aggregate_age_counts(1:10, rep.int(NA_integer_, 10L), breaks = 2L))
+

@@ -1,4 +1,4 @@
-## ---- include = FALSE---------------------------------------------------------
+## ----include=FALSE------------------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -6,13 +6,20 @@ knitr::opts_chunk$set(
 
 ## -----------------------------------------------------------------------------
 library(ageutils)
+
 breaks_to_interval(breaks = c(0L, 1L, 5L, 15L, 25L, 45L, 65L))
+
+breaks_to_interval(breaks = c(1L, 5L, 15L), max_upper = 25L)
 
 ## -----------------------------------------------------------------------------
 cut_ages(ages = 0:9, breaks = c(0L, 1L, 5L, 15L, 25L, 45L, 65L))
-cut_ages(1:10, breaks = 6L)
+
+cut_ages(1:10, breaks = c(0L, 4L), max_upper = 9L)
+
 x <- cut_ages(1:100, breaks = c(0L, 1L, 5L, 15L, 25L, 45L, 65L))
+
 str(x)
+
 head(x$interval)
 
 ## -----------------------------------------------------------------------------
@@ -40,9 +47,6 @@ split_interval_counts(
 ## -----------------------------------------------------------------------------
 # default ages generated as 0:(length(counts) - 1L) if only counts provided.
 aggregate_age_counts(counts = 1:65, breaks = c(0L, 1L, 5L, 15L, 25L, 45L, 65L))
-
-# Values below the minimum break are counted as NA
-aggregate_age_counts(counts = 1:65, breaks = 50L)
 
 # NA ages are also handled with their own grouping
 ages <- 1:65
