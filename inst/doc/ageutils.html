@@ -169,7 +169,8 @@ breaks_to_interval(breaks = c(0L, 1L, 5L, 15L, 25L, 45L, 65L))
 #&gt; 5  [25, 45)          25          45
 #&gt; 6  [45, 65)          45          65
 #&gt; 7 [65, Inf)          65         Inf
-
+</code></pre>
+<pre><code class="language-r">
 breaks_to_interval(breaks = c(1L, 5L, 15L), max_upper = 25L)
 #&gt;   interval lower_bound upper_bound
 #&gt; 1   [1, 5)           1           5
@@ -192,7 +193,8 @@ and follows the approach of <code>breaks_to_interval</code>.</p>
 #&gt; 8   [5, 15)           5          15
 #&gt; 9   [5, 15)           5          15
 #&gt; 10  [5, 15)           5          15
-
+</code></pre>
+<pre><code class="language-r">
 cut_ages(1:10, breaks = c(0L, 4L), max_upper = 9L)
 #&gt;    interval lower_bound upper_bound
 #&gt; 1    [0, 4)           0           4
@@ -205,7 +207,8 @@ cut_ages(1:10, breaks = c(0L, 4L), max_upper = 9L)
 #&gt; 8    [4, 9)           4           9
 #&gt; 9      &lt;NA&gt;          NA          NA
 #&gt; 10     &lt;NA&gt;          NA          NA
-
+</code></pre>
+<pre><code class="language-r">
 x &lt;- cut_ages(1:100, breaks = c(0L, 1L, 5L, 15L, 25L, 45L, 65L))
 
 str(x)
@@ -213,7 +216,8 @@ str(x)
 #&gt;  $ interval   : Ord.factor w/ 7 levels &quot;[0, 1)&quot;&lt;&quot;[1, 5)&quot;&lt;..: 2 2 2 2 3 3 3 3 3 3 ...
 #&gt;  $ lower_bound: num  1 1 1 1 5 5 5 5 5 5 ...
 #&gt;  $ upper_bound: num  5 5 5 5 15 15 15 15 15 15 ...
-
+</code></pre>
+<pre><code class="language-r">
 head(x$interval)
 #&gt; [1] [1, 5)  [1, 5)  [1, 5)  [1, 5)  [5, 15) [5, 15)
 #&gt; 7 Levels: [0, 1) &lt; [1, 5) &lt; [5, 15) &lt; [15, 25) &lt; [25, 45) &lt; ... &lt; [65, Inf)
@@ -250,7 +254,8 @@ split_interval_counts(
 #&gt; 18  17     3
 #&gt; 19  18     3
 #&gt; 20  19     3
-
+</code></pre>
+<pre><code class="language-r">
 # Population weightings to apply for individual years can be specified by
 # the weights argument. If these are specified, they must be of length
 # `max_upper` and represent weights in the range 0:(max_upper - 1).
@@ -301,7 +306,8 @@ aggregate_age_counts(counts = 1:65, breaks = c(0L, 1L, 5L, 15L, 25L, 45L, 65L))
 #&gt; 5  [25, 45)          25          45   710
 #&gt; 6  [45, 65)          45          65  1110
 #&gt; 7 [65, Inf)          65         Inf     0
-
+</code></pre>
+<pre><code class="language-r">
 # NA ages are also handled with their own grouping
 ages &lt;- 1:65
 ages[1:44] &lt;- NA
@@ -350,7 +356,8 @@ pop_dat
 #&gt; 17 K04000001 England and Wales     [80, 85) 1517000
 #&gt; 18 K04000001 England and Wales     [85, 90)  925100
 #&gt; 19 K04000001 England and Wales    [90, Inf)  527900
-
+</code></pre>
+<pre><code class="language-r">
 # each row is for the same region so discard for moment
 dat &lt;- subset(pop_dat, select = c(age_category, value))
 
@@ -373,7 +380,8 @@ head(dat, n=10)
 #&gt; 8      [35, 40) 3981600          35          40
 #&gt; 9      [40, 45) 3755700          40          45
 #&gt; 10     [45, 50) 3788700          45          50
-
+</code></pre>
+<pre><code class="language-r">
 # recategorise based on ages
 with(
     dat,

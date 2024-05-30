@@ -1,7 +1,7 @@
 Package: ageutils
 Type: Package
 Title: Collection of Functions for Working with Age Intervals
-Version: 0.0.2
+Version: 0.0.3
 Authors@R: 
     c(
       person(
@@ -33,10 +33,11 @@ LazyData: true
 VignetteBuilder: knitr
 URL: https://timtaylor.github.io/ageutils/
 BugReports: https://github.com/TimTaylor/ageutils/issues
+Config/runiverse/noindex: true
 NeedsCompilation: yes
-Packaged: 2024-03-06 12:55:23 UTC; tim
+Packaged: 2024-05-30 15:06:21 UTC; tim
 Author: Tim Taylor [aut, cre, cph] (<https://orcid.org/0000-0002-8587-7113>),
   Edwin van Leeuwen [ctb] (<https://orcid.org/0000-0002-2383-5305>)
 Maintainer: Tim Taylor <tim.taylor@hiddenelephants.co.uk>
 Repository: CRAN
-Date/Publication: 2024-03-06 13:10:12 UTC
+Date/Publication: 2024-05-30 15:20:15 UTC
