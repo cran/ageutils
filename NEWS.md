@@ -1,3 +1,9 @@
+# ageutils 0.0.4
+
+* Fixes an error in `reaggregate_interval_rates()` which caused the first entry
+  of the output to be incorrect when the `breaks` were not specified from `0`.
+  Thanks to @BlackEdder for the report.
+
 # ageutils 0.0.3
 
 * Internal changes only.
