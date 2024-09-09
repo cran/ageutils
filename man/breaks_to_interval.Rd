@@ -23,10 +23,10 @@ Represents the maximum upper bound splitting the data.
 Defaults to \code{Inf}.}
 }
 \value{
-A data frame with an ordered factor column (\code{interval}), as well as columns
-corresponding to the explicit bounds (\code{lower_bound} and \code{upper_bound}). Note
-these bounds are returned as \verb{<numeric>} to allow the maximum upper bound to
-be \code{Inf}.
+A \link[tibble:tbl_df-class]{tibble} with an ordered factor column (\code{interval}),
+as well as columns corresponding to the explicit bounds (\code{lower_bound} and
+\code{upper_bound}). Note that even those these bounds are whole numbers they are
+returned as \code{numeric} to allow the maximum upper bound to be given as \code{Inf}.
 }
 \description{
 \code{breaks_to_interval()} takes a specified set of breaks representing the left
@@ -35,8 +35,11 @@ corresponding interval and upper bounds. The resulting intervals span from
 the minimum break through to a specified \code{max_upper}.
 }
 \examples{
-brks <- c(0L, 1L, 5L, 15L, 25L, 45L, 65L)
-breaks_to_interval(breaks = brks)
-breaks_to_interval(breaks = brks, max_upper = 100L)
+
+breaks_to_interval(breaks = c(0L, 1L, 5L, 15L, 25L, 45L, 65L))
+breaks_to_interval(
+    breaks = c(0L, 1L, 5L, 15L, 25L, 45L, 65L),
+    max_upper = 100L
+)
 
 }
