@@ -1,7 +1,7 @@
 Package: ageutils
 Type: Package
 Title: Collection of Functions for Working with Age Intervals
-Version: 0.0.5
+Version: 0.0.6
 Authors@R: 
     c(
       person(
@@ -36,9 +36,9 @@ Config/build/compilation-database: true
 Imports: cli, rlang, stats, tibble
 Config/testthat/edition: 3
 NeedsCompilation: yes
-Packaged: 2024-09-09 21:34:37 UTC; tim
+Packaged: 2024-11-27 14:11:33 UTC; tim
 Author: Tim Taylor [aut, cre, cph] (<https://orcid.org/0000-0002-8587-7113>),
   Edwin van Leeuwen [aut] (<https://orcid.org/0000-0002-2383-5305>)
 Maintainer: Tim Taylor <tim.taylor@hiddenelephants.co.uk>
 Repository: CRAN
-Date/Publication: 2024-09-09 21:50:02 UTC
+Date/Publication: 2024-11-27 14:30:02 UTC
