@@ -1,16 +1,16 @@
-6e6ca412cca68d51490f802f54fb547d *DESCRIPTION
+afa2bf6337e49afb8b88b8cf20d71e39 *DESCRIPTION
 44cd6e16b27876dfce27a49704bd0238 *NAMESPACE
-9566ad031cb8366a79bc48af04973cae *NEWS.md
+5c17a3cadcea96727b5c1ce8139b0d53 *NEWS.md
 cbfa8f38147e14ab861d47f2c1947417 *R/ageutils-package.R
 77bdc3679bcea8b92cc3f190bf429594 *R/breaks_to_interval.R
 7b01e6d0090af85dce3aeecb95ca351a *R/cut_ages.R
 e355750675859c7ff80e57c420b542c3 *R/data.R
 359ed3aabc8004d09273e759ad01be3f *R/deprecated.R
 cb99e235064b67f09ea86b4c84f65d15 *R/reaggregate_counts.R
-c9f21850b3472ade11d89084337963eb *R/reaggregate_rates.R
+50b199652955c0481cdb9cd8a9d765bd *R/reaggregate_rates.R
 8530c648905578a336f0cdfd13bde4e8 *R/utils.R
 44cf9169645f226bdb78a4e46cea92e7 *R/wip.R
-ca2e262eac1449057d51bf03ddf1ebe2 *README.md
+a64101caebcab1ff6be4694f1b1d42f0 *README.md
 f635596b90f4f215d26f70b78e2b2eec *data/pop_dat.rda
 7d6026625bd47070d72b41743fb43af3 *man/ageutils-deprecated.Rd
 0be7a9493e51ec118bd7a7538e615e7d *man/ageutils-package.Rd
@@ -39,4 +39,4 @@ c99e25eb99daeb55e213b1c8f093ca8e *tests/testthat/_snaps/cut_ages.md
 c20aaedbbedf9ae1acae0be791a7c415 *tests/testthat/test-cut_ages.R
 166f9bed5814b4ca29157b4ecdd395b4 *tests/testthat/test-deprecated-functions.R
 cb0f66b98a6129b037cd71cc02bdd98e *tests/testthat/test-reaggregate_counts.R
-df82a898731615e77f40e1233684454f *tests/testthat/test-reaggregate_rates.R
+c2647a80b87eec3276784cdd0ddd9b57 *tests/testthat/test-reaggregate_rates.R
