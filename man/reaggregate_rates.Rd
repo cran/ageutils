@@ -2,12 +2,9 @@
 % Please edit documentation in R/reaggregate_rates.R
 \name{reaggregate_rates}
 \alias{reaggregate_rates}
-\alias{reaggregate_rates.default}
 \title{Reaggregate age rates}
 \usage{
-reaggregate_rates(...)
-
-\method{reaggregate_rates}{default}(
+reaggregate_rates(
   bounds,
   rates,
   new_bounds,
@@ -17,8 +14,6 @@ reaggregate_rates(...)
 )
 }
 \arguments{
-\item{...}{Further arguments passed to or from other methods.}
-
 \item{bounds}{\verb{[numeric]}
 
 The \emph{current} boundaries in (strictly) increasing order.
@@ -36,6 +31,8 @@ Vector of rates corresponding to the intervals defined by \code{bounds}.}
 
 The \emph{desired} boundaries in (strictly) increasing order.}
 
+\item{...}{Further arguments passed to or from other methods.}
+
 \item{population_bounds}{\verb{[numeric]}
 
 Interval boundaries for a known population weighting given by the
@@ -50,7 +47,7 @@ Used to weight the output across the desired intervals.
 If \code{NULL} (default) rates are divided proportional to the interval sizes.}
 }
 \value{
-A data frame with 4 entries; \code{interval}, \code{lower_bound}, \code{upper_bound} and a
+A data frame with 4 entries; \code{interval}, \code{lower}, \code{upper} and a
 corresponding \code{rate}.
 }
 \description{

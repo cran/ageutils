@@ -41,7 +41,7 @@
 # -------------------------------------------------------------------------
 #' @return
 #'
-#' A data frame with 4 entries; `interval`, `lower_bound`, `upper_bound` and a
+#' A data frame with 4 entries; `interval`, `lower`, `upper` and a
 #' corresponding `rate`.
 #'
 # -------------------------------------------------------------------------
@@ -57,19 +57,13 @@
 #'
 # -------------------------------------------------------------------------
 #' @export
-reaggregate_rates <- function(...) {
-    UseMethod("reaggregate_rates")
-}
-
-#' @rdname reaggregate_rates
-#'@export
-reaggregate_rates.default <- function(
-    bounds,
-    rates,
-    new_bounds,
-    ...,
-    population_bounds = NULL,
-    population_weights = NULL
+reaggregate_rates <- function(
+        bounds,
+        rates,
+        new_bounds,
+        ...,
+        population_bounds = NULL,
+        population_weights = NULL
 ) {
 
     check_dots_empty0(...)
@@ -164,61 +158,58 @@ reaggregate_rates.default <- function(
     }
 
     # calculate the old and new upper bounds
-    old_upper <- c(bounds[-1L], Inf)
     pop_upper <- c(population_bounds[-1L], Inf)
     new_upper <- c(new_bounds[-1L], Inf)
 
-    # calculate the combined bounds
-    all_lower <- sort(unique(c(bounds, new_bounds, population_bounds)))
-    all_upper <- c(all_lower[-1L], Inf)
-
-    if (is.null(population_weights))
+    # TODO - explain this!!!
+    if (is.null(population_weights)) {
         population_weights <- pop_upper - population_bounds
-
-    # we need to keep track where the combined bits would fit in the old and
-    # new bounds. This information is stored in the old_container and
-    # new_container vectors respectively.
-    new_container <- old_container <- pop_container <- integer(length(all_upper))
-    new_index <- old_index <- pop_index <- 1L
-
-    for (i in seq_along(old_container)) {
-        old_index <- old_index + (all_upper[i] > old_upper[old_index])
-        new_index <- new_index + (all_upper[i] > new_upper[new_index])
-        pop_index <- pop_index + (all_upper[i] > pop_upper[pop_index])
-
-        old_container[i] <- old_index
-        new_container[i] <- new_index
-        pop_container[i] <- pop_index
+        population_weights[length(population_weights)] <- 1 # here the value is irrelevant as long as finite (I think)
     }
 
-    pop_weights <- population_weights[pop_container]
-    pop_weights <- pop_weights * (all_upper - all_lower) / (pop_upper[pop_container] - population_bounds[pop_container])
-    pop_weights[length(pop_weights)] <- 1
-    result <- rates[old_container] * pop_weights
-    out <- numeric(length(new_bounds))
-    idx <- 1L
-    weight <- 0
-    for (i in seq_along(new_container)) {
-        if (new_container[i] != idx) {
-            out[idx] <- out[idx] / weight
-            idx <- idx + 1L
-            weight <- 0
-        }
-        weight <- weight + pop_weights[i]
-        out[idx] <- out[idx] + result[i]
-    }
-    out[length(out)] <- out[length(out)] / weight
+    # Do the stuff
+    DT <- .reaggregate_rates(
+        bounds = bounds,
+        rates = rates,
+        new_bounds = new_bounds,
+        population_bounds = population_bounds,
+        population_weights = population_weights
+    )
 
+    # calculate the intervals
     interval <- sprintf("[%.f, %.f)", new_bounds, new_upper)
     interval <- factor(interval, levels = interval, ordered = TRUE)
 
+    # return as tibble
     new_tibble(
         list(
             interval = interval,
             lower = new_bounds,
             upper = new_upper,
-            rate = out
+            rate = DT$rate
         )
     )
+}
+
+.reaggregate_rates <- function(bounds, rates, new_bounds, population_bounds, population_weights) {
+    all_lower <- sort(unique(c(bounds, new_bounds, population_bounds)))
+    # vctrs::new_data_frame should be safe to use here due to earlier input
+    #   checks in the user facing function
+    dat <- new_data_frame(list(lower = bounds, rates = rates))
+    cut <- cut_ages(all_lower, breaks = bounds)
+    dat1 <- merge(cut, dat, by = "lower")
+    dat2 <- .reaggregate_counts_unweighted(population_bounds, population_weights, all_lower)
+    dat1$weight <- dat2$count
+    cut2 <- cut_ages(all_lower, breaks = new_bounds)
+    dat1$lower <- cut2$lower
+
+    # The following is optimised for performance for our use cases but is the
+    # equivalent (save output type) of
+    # setDT(dat1)[, .(rate = sum(rates * weight) / sum(weight)), by = "lower"][]
+    out <- .fgsum(dat1$rates * dat1$weight, by = dat1$lower, byname = "lower", sumname = "rate")
+    sw <- .fgsum(dat1$weight, by = dat1$lower, byname = "lower", sumname = "rate")
+    out$rate <- out$rate / sw$rate
+    out
+
 
 }
