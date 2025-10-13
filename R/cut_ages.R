@@ -7,8 +7,8 @@
 #' `cut_ages()` provides categorisation of ages based on specified breaks
 #' which represent the left-hand interval limits. The resulting intervals span
 #' from the minimum break through to a specified `max_upper` and will always be
-#' closed on the left and open on the right. Ages below the minimum break, or
-#' above `max_upper` will be returned as NA.
+#' closed on the left and open on the right. Ages above `max_upper` will be
+#' returned as NA.
 #'
 # -------------------------------------------------------------------------
 #' @param ages `[numeric]`.
@@ -39,8 +39,8 @@
 # -------------------------------------------------------------------------
 #' @return
 #'
-#' A data frame with an ordered factor column (`interval`), as well as columns
-#' corresponding to the explicit bounds (`lower` and `upper`).
+#' A [tibble][tibble::tbl_df-class] with an ordered factor column (`interval`),
+#' as well as columns corresponding to the explicit bounds (`lower` and `upper`).
 #' Internally both bound columns are stored as double but it can be taken as
 #' part of the function API that `lower` is coercible to integer without
 #' any coercion to `NA_integer_`. Similarly all values of `upper` apart
@@ -68,7 +68,7 @@
 cut_ages <- function(ages, breaks, max_upper = Inf) {
 
     # check max_upper
-    if(!is.numeric(max_upper) || length(max_upper) != 1L || is.na(max_upper) || max_upper <= 0)
+    if (!is.numeric(max_upper) || length(max_upper) != 1L || is.na(max_upper) || max_upper <= 0)
         stop("`max_upper` must be positive, numeric and of length 1.")
 
     # check breaks
@@ -97,7 +97,7 @@ cut_ages <- function(ages, breaks, max_upper = Inf) {
         stop("`ages` must be coercible to integer and not NA.")
 
     if (min_age < breaks[1L])
-        stop("`ages` must greater than or equal to the minimum value of `breaks`.");
+        stop("`ages` must greater than or equal to the minimum value of `breaks`.")
 
     # allow for breaks which do not start at zero
     lower <- c(0L, breaks)

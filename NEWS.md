@@ -1,3 +1,9 @@
+# ageutils 0.1.1
+
+* Added an introductory vignette.
+
+* Small number of documentation improvements.
+
 # ageutils 0.1.0
 
 ## Fixes

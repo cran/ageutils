@@ -41,8 +41,8 @@
 # -------------------------------------------------------------------------
 #' @return
 #'
-#' A data frame with 4 entries; `interval`, `lower`, `upper` and a
-#' corresponding `count`.
+#' A [tibble][tibble::tbl_df-class] with 4 entries; `interval`, `lower`, `upper`
+#' and a corresponding `count`.
 #'
 # -------------------------------------------------------------------------
 #' @examples
@@ -73,18 +73,18 @@
 # -------------------------------------------------------------------------
 #' @export
 reaggregate_counts <- function(
-        bounds,
-        counts,
-        new_bounds,
-        ...,
-        population_bounds = NULL,
-        population_weights = NULL
+    bounds,
+    counts,
+    new_bounds,
+    ...,
+    population_bounds = NULL,
+    population_weights = NULL
 ) {
 
     check_dots_empty0(...)
 
     # lower bounds checks
-    if (any(!is.finite(bounds)))
+    if (!all(is.finite(bounds)))
         stop("`bounds` must be a finite, numeric vector.")
 
     if (!length(bounds))
@@ -97,14 +97,14 @@ reaggregate_counts <- function(
         stop("`bounds` must be non-negative.")
 
     # rates checks
-    if(!is.numeric(counts))
+    if (!is.numeric(counts))
         stop("`counts` must be numeric.")
 
     if (length(counts) != length(bounds))
         stop("`counts` must be the same length as `bounds`.")
 
     # new bounds checks
-    if (any(!is.finite(new_bounds)))
+    if (!all(is.finite(new_bounds)))
         stop("`new_bounds` must be a finite, numeric vector.")
 
     if (!length(new_bounds))
@@ -119,23 +119,19 @@ reaggregate_counts <- function(
     # population bounds checks
     if (is.null(population_bounds)) {
 
-        if (!is.null(population_weights)) {
-            if (length(population_weights) != length(new_bounds)) {
-                stop("When `population_bounds` is not specified, `population_weights` must be the same length as `new_bounds`."
-                )
-            }
+        if (!is.null(population_weights) && length(population_weights) != length(new_bounds)) {
+            stop("When `population_bounds` is not specified, `population_weights` must be the same length as `new_bounds`.") # nolint: line_length_linter.
         }
 
         if (max(bounds) < max(new_bounds)) {
-            stop("Where `population_bounds` are not specified the maximum value of `new_bounds` must be less than or equal to that of `bounds`."
-            )
+            stop("Where `population_bounds` are not specified the maximum value of `new_bounds` must be less than or equal to that of `bounds`.") # nolint: line_length_linter.
         }
 
         population_bounds <- new_bounds
 
     } else {
 
-        if (any(!is.finite(population_bounds)))
+        if (!all(is.finite(population_bounds)))
             stop("`population_bounds` must be a finite, numeric vector.")
 
         if (!length(population_bounds))
@@ -149,7 +145,7 @@ reaggregate_counts <- function(
 
         if (max(bounds) > max(population_bounds)) {
             stop(
-                "The maximum value of `bounds` must be less than or equal to that of `population_bounds`."
+                "The maximum value of `bounds` must be less than or equal to that of `population_bounds`." # nolint: line_length_linter.
             )
         }
 
@@ -158,7 +154,7 @@ reaggregate_counts <- function(
     # population_weights check
     if (!is.null(population_weights)) {
 
-        if (any(!is.finite(population_weights)) || any(population_weights < 0))
+        if (!all(is.finite(population_weights)) || any(population_weights < 0))
             stop("`population_weights` must be numeric, non-negative and finite.")
 
         if (length(population_weights) != length(population_bounds))
@@ -242,12 +238,18 @@ reaggregate_counts <- function(
     # The following is optimised for performance for our use cases but is the
     # equivalent (save output type) of
     # setDT(out)[, .(count = sum(count)), by = "lower"][]
-    .fgsum(out$count, out$lower, byname = "lower", sumname = "count")
+    .fast_grouped_sum(out$count, out$lower, byname = "lower", sumname = "count")
 }
 
 # -------------------------------------------------------------------------
 
-.reaggregate_counts_weighted <- function(bounds, counts, new_bounds, population_bounds, population_weights) {
+.reaggregate_counts_weighted <- function(
+    bounds,
+    counts,
+    new_bounds,
+    population_bounds,
+    population_weights
+) {
     all_lower <- sort(unique(c(bounds, new_bounds, population_bounds)))
     # vctrs::new_data_frame should be safe to use here due to earlier input
     #   checks in the user facing function
@@ -268,6 +270,6 @@ reaggregate_counts <- function(
     # out <- out[, .(ck = counts * w/sum(w)), by = "i"]
     # set(out, j = "lower", value = dat3$lower)
     # out[, .(count = sum(ck)), keyby = "lower"][]
-    out$ck <- out$counts * out$w / .fsum(out$w, out$i)
-    .fgsum(out$ck, dat3$lower, byname = "lower", sumname = "count")
+    out$ck <- out$counts * out$w / .ave_sum(out$w, out$i)
+    .fast_grouped_sum(out$ck, dat3$lower, byname = "lower", sumname = "count")
 }
