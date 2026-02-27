@@ -1,6 +1,6 @@
-0bce12f234bb6c57fada699c214173d2 *DESCRIPTION
+b57b3d72b45dc09fd12ec8c42840797e *DESCRIPTION
 5ee521f660282c11d82966b20e4b7fd8 *NAMESPACE
-bc79f144bcf566f4ecf21a7ad55c363a *NEWS.md
+e995ac735bbc97e76e757ebc9b27a879 *NEWS.md
 e89eec77fbfa09cc800c24e246ec0f49 *R/ageutils-package.R
 633ddf4927381d9b9e24016693c67150 *R/breaks_to_interval.R
 fbf54cfe55e678bd79756be8fe97dc9a *R/cut_ages.R
@@ -11,11 +11,11 @@ e9406a6f2b820261e9d0ff606aa916bf *R/reaggregate_counts.R
 f6f0c34923884a97516e8f23ee7840fd *R/utils.R
 44cf9169645f226bdb78a4e46cea92e7 *R/wip.R
 a5d181b86ca0dc0ae201010faf9765bd *README.md
-c52c26c14ec5a97670657a8360f04400 *build/vignette.rds
+1cfcc683212f8f97a71a4d4ab01f19ff *build/vignette.rds
 f635596b90f4f215d26f70b78e2b2eec *data/pop_dat.rda
 05dd1405ec63b90a92048f5794df26b5 *inst/doc/ageutils.R
-5819ed249dc4b9bac57094f8fb9f1448 *inst/doc/ageutils.Rmd
-f90c1a19dacda7bb5baec37a4858079e *inst/doc/ageutils.html
+729b1c207a866899ffca1c71251fd8ef *inst/doc/ageutils.Rmd
+587a582e1b72cc7fdd30206d97a03854 *inst/doc/ageutils.html
 ce992fde4d5b58725a27a88d90a87f0c *man/ageutils-defunct.Rd
 0be7a9493e51ec118bd7a7538e615e7d *man/ageutils-package.Rd
 c1b2c9d62f4c770f3b35616e191d273a *man/breaks_to_interval.Rd
@@ -34,4 +34,5 @@ d650827251ff39ea8a5aa95315f237b5 *tests/testthat/test-cut_ages.R
 676ddf8c676fca8b6138c5cdc4fd1bce *tests/testthat/test-defunct-functions.R
 b3804e2f39abdfcaebb8599194f4326b *tests/testthat/test-reaggregate_counts.R
 2c83ece7b25edca2c1fba7cac0d210d1 *tests/testthat/test-reaggregate_rates.R
-5819ed249dc4b9bac57094f8fb9f1448 *vignettes/ageutils.Rmd
+729b1c207a866899ffca1c71251fd8ef *vignettes/ageutils.Rmd
+a8bdf0e9c623af6096dffae6e82acd50 *vignettes/assets/tweaks.css
